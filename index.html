@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en" class="js-focus-visible">
+
+<title>Supercapasitor Controller</title>
+
+<style>
+ table {
+	position: relative;
+	width:100%;
+	border-spacing: 0px;
+}
+tr {
+	border: 1px solid white;
+	font-family: "Verdana", "Arial", sans-serif; 13 font-size: 20px;
+}
+th {
+	height: 20px;
+	padding: 3px 15px;
+	background-color: #343a40;
+	color: #FFFFFF !important;
+}
+td {
+	height: 20px;
+	padding: 3px 15px;
+}
+.tabledata {
+	font-size: 24px;
+	position: relative;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 25px;
+	border-radius: 5px;
+	color: #FFFFFF;
+	line-height: 20px;
+	transition: all 200ms ease-in-out; 	
+	background-color: #00AA00;
+}
+.fanrpmslider {
+	width: 30%;
+	height: 55px;
+	outline: none;
+	height: 25px;
+}
+.bodytext {
+	font-family: "Verdana", "Arial", sans-serif; 
+	font-size: 24px;
+	text-align: left;
+	font-weight: light;
+	border-radius: 5px;
+	display:inline;
+}
+.navbar {
+	width: 100%;
+	height: 50px;
+	margin: 0;
+	padding: 10px 0px;
+	background-color: #FFF;
+	color: #000000;
+	border-bottom: 5px solid #293578; 
+}
+.fixed-top {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+}
+.navtitle {
+	float: left;
+	height: 50px;
+	font-family: "Verdana", "Arial", sans-serif; 
+	font-size: 50px;
+	font-weight: bold;
+	line-height: 50px;
+	padding-left: 20px;
+}
+.navheading {
+	position: fixed;
+	left: 60%;
+	height: 50px;
+	font-family: "Verdana", "Arial", sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 20px;
+	padding-right: 20px;
+}
+.navdata {
+	justify-content: flex-end;
+	position: fixed;
+	left: 70%;
+	height: 50px;
+	font-family: "Verdana", "Arial", sans-serif; 
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 20px;
+	padding-right: 20px;
+ }
+.category {
+	font-family: "Verdana", "Arial", sans-serif; 
+	font-weight: bold;
+	font-size: 32px;
+	line-height: 50px;
+	padding: 20px 10px 0px 10px;
+	color: #000000;
+}
+.heading {
+	font-family: "Verdana", "Arial", sans-serif; 
+	font-weight: normal;
+	font-size: 28px;
+	text-align: left;
+}
+.btn {
+	background-color: #444444;
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+}
+.foot {
+	font-family: "Verdana", "Arial", sans-serif;
+	font-size: 20px;
+	position: relative;
+	height: 30px;
+	text-align: center;
+	color: #AAAAAA;
+	line-height: 20px;
+}
+.container {
+	max-width: 1800px;
+	margin: 0 auto;
+}
+table tr:first-child th:first-child {
+	border-top-left-radius: 5px;
+}
+table tr:first-child th:last-child {
+	border-top-right-radius: 5px;
+}
+table tr:last-child td:first-child {
+	border-bottom-left-radius: 5px;
+}
+table tr:last-child td:last-child {
+	border-bottom-right-radius: 5px;
+}
+ </style>
+ 
+<body style="background-color: #efefef" onload="process()"> 
+
+<header>
+	<div class="navbar fixed-top">
+		<div class="container">
+			<div class="navtitle">SuperCapacitor Monitor</div>
+			<div class="navdata" id = "date">mm/dd/yyyy</div> 
+			<div class="navheading">TANGGAL :</div><br>
+			<div class="navdata" id = "time">00:00:00</div>
+			<div class="navheading">JAM :</div>
+		</div>
+	</div>
+</header>
+
+<main class="container" style="margin-top:70px">
+	<div class="category">Monitoring Tegangan Individu Superkapasitor</div>
+	<div style="border-radius: 10px !important;">
+	<table style="width:50%">
+		<colgroup>
+			<col span="1" style="background-color:rgb(230,230,230); width: 25%; color:#000000 ;">
+			<col span="1" style="background-color:rgb(200,200,200); width: 15%; color:#000000 ;">
+			<col span="1" style="background-color:rgb(180,180,180); width: 15%;	color:#000000 ;">
+			<col span="1" style="background-color:rgb(190,190,190); width: 15%; color:#000000 ;">
+		</colgroup>
+		<col span="2"style="background-color:rgb(0,0,0); color:#FFFFFF">
+		<col span="2"style="background-color:rgb(0,0,0); color:#FFFFFF">
+		<col span="2"style="background-color:rgb(0,0,0); color:#FFFFFF">
+		<col span="2"style="background-color:rgb(0,0,0); color:#FFFFFF">
+	<tr>
+		<th colspan="1"><div class="heading">Superkapasitor</div></th>
+		<th colspan="1"><div class="heading">Bits</div></th> 
+		<th colspan="1"><div class="heading">Volts</div></th> 
+		<th colspan="1"><div class="heading">Status</div></th> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC1 (pin36)</div></td> 
+		<td><div class="tabledata" id ="b0"></div></td>
+		<td><div class="tabledata" id = "v0"></div></td>
+		<td><div class="bodytext" id = "stat0"></div></td> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC2 (pin39)</div></td> 
+		<td><div class="tabledata" id = "b1"></div></td>
+		<td><div class="tabledata" id = "v1"></div></td>
+		<td><div class="bodytext" id = "stat1"></div></td> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC3 (pin 34)</div></td>
+		<td><div class="tabledata" id = "b2"></div></td>
+		<td><div class="tabledata" id = "v2"></div></td>
+		<td><div class="bodytext" id = "stat2"></div></td>
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC4 (pin 35)</div></td>
+		<td><div class="tabledata" id = "b3"></div></td>
+		<td><div class="tabledata" id = "v3"></div></td>
+		<td><div class="bodytext" id = "stat3"></div></td> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC5 (pin 32)</div></td>
+		<td><div class="tabledata" id = "b4"></div></td>
+		<td><div class="tabledata" id = "v4"></div></td>
+		<td><div class="bodytext" id = "stat4"></div></td> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC6 (pin 33)</div></td>
+		<td><div class="tabledata" id = "b5"></div></td>
+		<td><div class="tabledata" id = "v5"></div></td>
+		<td><div class="bodytext" id = "stat5"></div></td> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC7 (pin 25)</div></td>
+		<td><div class="tabledata" id = "b6"></div></td>
+		<td><div class="tabledata" id = "v6"></div></td>
+		<td><div class="bodytext" id = "stat6"></div></td> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC8 (pin 26)</div></td>
+		<td><div class="tabledata" id = "b7"></div></td>
+		<td><div class="tabledata" id = "v7"></div></td>
+		<td><div class="bodytext" id = "stat7"></div></td> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">SC9 (pin 27)</div></td>
+		<td><div class="tabledata" id = "b8"></div></td>
+		<td><div class="tabledata" id = "v8"></div></td>
+		<td><div class="bodytext" id = "stat8"></div></td> 
+	</tr>
+	</table>
+	</div>
+	<br>
+	
+<div class="category">Tegangan Grup Seri dan Tegangan Total</div> 
+<table style="width:50%">
+	<colgroup>
+		<col span="1" style="background-color:rgb(230,230,230); width: 25%; color:#000000 ;">
+		<col span="1" style="background-color:rgb(200,200,200); width: 15%; color:#000000 ;">
+		<col span="1" style="background-color:rgb(180,180,180); width: 15%; color:#000000 ;">
+		<col span="1" style="background-color:rgb(180,180,180); width: 15%; color:#000000 ;">
+	</colgroup>
+	<col span="2"style="background-color:rgb(0,0,0); color:#FFFFFF">
+	<col span="2"style="background-color:rgb(0,0,0); color:#FFFFFF">
+	<col span="2"style="background-color:rgb(0,0,0); color:#FFFFFF">
+	<col span="2"style="background-color:rgb(0,0,0); color:#FFFFFF">
+	<tr>
+		<th colspan="1"><div class="heading"> Grup Superkapasitor</div></th>
+		<th colspan="1"><div class="heading">Bits</div></th> 
+		<th colspan="1"><div class="heading">Volts</div></th> 
+		<th colspan="1"><div class="heading">Status</div></th> 
+	</tr>
+	<tr>
+		<td><div class="bodytext">Grup1 (SC1+SC2+SC3)</div></td>
+		<td><div class="tabledata" id = "b9"></div></td>
+		<td><div class="tabledata" id = "v9"></div></td>
+		<td><div class="bodytext" id = "stat9"></div></td>
+	</tr>
+	<tr>
+		<td><div class="bodytext">Grup2 (SC4+SC5+SC6)</div></td>
+		<td><div class="tabledata" id = "b10"></div></td>
+		<td><div class="tabledata" id = "v10"></div></td>
+		<td><div class="bodytext" id = "stat10"></div></td>
+	</tr>
+	<tr>
+		<td><div class="bodytext">Grup3 (SC7+SC8+SC9)</div></td>
+		<td><div class="tabledata" id = "b11"></div></td>
+		<td><div class="tabledata" id = "v11"></div></td>
+		<td><div class="bodytext" id = "stat11"></div></td>
+	</tr>
+	<tr>
+		<td><div class="bodytext">Tegangan Total</div></td>
+		<td><div class="tabledata" id = "b12"></div></td>
+		<td><div class="tabledata" id = "v12"></div></td>
+		<td><div class="bodytext" id = "stat12"></div></td>
+	</tr>
+</table>
+
+<br>
+
+<div class="bodytext">Tindakan Darurat </div>
+	<button type="button" class = "btn" id = "btn0" onclick="ButtonPress0()">Stop Charging !</button>
+</div>
+
+<br>
+
+</main>
+<footer div class="foot" id = "temp" >Djukarna & Murni @ 2022</div></footer> 
+</body>
+
+<script type = "text/javascript">
+var xmlHttp=createXmlHttpObject();
+
+createXmlHttpObject(){
+	if(window.XMLHttpRequest){
+		xmlHttp=new XMLHttpRequest();
+	}
+	else{
+		xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	return xmlHttp;
+}
+
+function ButtonPress0() {
+	var xhttp = new XMLHttpRequest();
+	var message;
+	xhttp.open("PUT", "BUTTON_0", false);
+	xhttp.send();
+}
+
+function response(){
+	var message;
+	var barwidth;
+	var currentsensor;
+	var xmlResponse;
+	var xmldoc;
+	var dt = new Date();
+	var color = "#e8e8e8";
+
+	xmlResponse=xmlHttp.responseXML;
+
+	document.getElementById("time").innerHTML = dt.toLocaleTimeString(); 
+	document.getElementById("date").innerHTML = dt.toLocaleDateString(); 
+//------------------------------------------------------------------------ 330
+// A0
+	xmldoc = xmlResponse.getElementsByTagName("B0");
+	message = xmldoc[0].firstChild.nodeValue;
+	
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#00aa00";
+	}
+	barwidth = message / 40.95;
+	document.getElementById("b0").innerHTML=message;
+	document.getElementById("b0").style.width=(barwidth+"%");
+	document.getElementById("b0").style.backgroundColor=color;
+	document.getElementById("b0").style.borderRadius="5px";
+	
+	xmldoc = xmlResponse.getElementsByTagName("V0");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v0").innerHTML=message;
+	document.getElementById("v0").style.width=(barwidth+"%");
+	document.getElementById("v0").style.backgroundColor=color;
+//document.getElementById("v0").style.borderRadius="5px";
+//--------------------------------------------------------------------------
+
+// A1
+	xmldoc = xmlResponse.getElementsByTagName("B1");
+	message = xmldoc[0].firstChild.nodeValue;
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#00aa00";
+	}
+	document.getElementById("b1").innerHTML=message;
+	width = message / 40.95;
+	document.getElementById("b1").style.width=(width+"%");
+	document.getElementById("b1").style.backgroundColor=color;	
+	//document.getElementById("b1").style.borderRadius="5px";
+
+	xmldoc = xmlResponse.getElementsByTagName("V1");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v1").innerHTML=message;
+	document.getElementById("v1").style.width=(width+"%");
+	document.getElementById("v1").style.backgroundColor=color;
+	//document.getElementById("v1").style.borderRadius="5px";
+//----------------------------------------------------------------------------
+
+// A2
+	xmldoc = xmlResponse.getElementsByTagName("B2");
+	message = xmldoc[0].firstChild.nodeValue;
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#0000aa";
+	}
+	document.getElementById("b2").innerHTML=message;
+	width = message / 40.95;
+	document.getElementById("b2").style.width=(width+"%");
+	document.getElementById("b2").style.backgroundColor=color;
+	//document.getElementById("b2").style.borderRadius="5px";
+	
+	xmldoc = xmlResponse.getElementsByTagName("V2");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v2").innerHTML=message;
+	document.getElementById("v2").style.width=(width+"%");
+	document.getElementById("v2").style.backgroundColor=color;
+	//document.getElementById("v2").style.borderRadius="5px";
+//----------------------------------------------------------------------------
+
+// A3
+	xmldoc = xmlResponse.getElementsByTagName("B3");
+	message = xmldoc[0].firstChild.nodeValue;
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#0000aa";
+	}
+	document.getElementById("b3").innerHTML=message;
+	width = message / 40.95;
+	document.getElementById("b3").style.width=(width+"%");
+	document.getElementById("b3").style.backgroundColor=color;
+	//document.getElementById("b3").style.borderRadius="5px";
+	
+	xmldoc = xmlResponse.getElementsByTagName("V3");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v3").innerHTML=message;
+	document.getElementById("v3").style.width=(width+"%");
+	document.getElementById("v3").style.backgroundColor=color;
+	//document.getElementById("v3").style.borderRadius="5px";
+//----------------------------------------------------------------------------
+
+// A4
+	xmldoc = xmlResponse.getElementsByTagName("B4");
+	message = xmldoc[0].firstChild.nodeValue;
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#0000aa";
+	}
+	document.getElementById("b4").innerHTML=message;
+	width = message / 40.95;
+	document.getElementById("b4").style.width=(width+"%");
+	document.getElementById("b4").style.backgroundColor=color;
+	//document.getElementById("b4").style.borderRadius="5px";
+
+	xmldoc = xmlResponse.getElementsByTagName("V4");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v4").innerHTML=message;
+	document.getElementById("v4").style.width=(width+"%");
+	document.getElementById("v4").style.backgroundColor=color;
+//document.getElementById("v4").style.borderRadius="5px";
+//----------------------------------------------------------------------------
+
+// A5
+	xmldoc = xmlResponse.getElementsByTagName("B5");
+	message = xmldoc[0].firstChild.nodeValue;
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#0000aa";
+	}
+	document.getElementById("b5").innerHTML=message;
+	width = message / 40.95;
+	document.getElementById("b5").style.width=(width+"%");
+	document.getElementById("b5").style.backgroundColor=color;
+	//document.getElementById("b5").style.borderRadius="5px";
+
+	xmldoc = xmlResponse.getElementsByTagName("V5");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v5").innerHTML=message;
+	document.getElementById("v5").style.width=(width+"%");
+	document.getElementById("v5").style.backgroundColor=color;
+	//document.getElementById("v5").style.borderRadius="5px";
+//----------------------------------------------------------------------------
+
+// A6
+	xmldoc = xmlResponse.getElementsByTagName("B6");
+	message = xmldoc[0].firstChild.nodeValue;
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#0000aa";
+	}
+	document.getElementById("b6").innerHTML=message;
+	width = message / 40.95;
+	document.getElementById("b6").style.width=(width+"%");
+	document.getElementById("b6").style.backgroundColor=color;
+	//document.getElementById("b6").style.borderRadius="5px";
+	
+	xmldoc = xmlResponse.getElementsByTagName("V6");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v6").innerHTML=message;
+	document.getElementById("v6").style.width=(width+"%");
+	document.getElementById("v6").style.backgroundColor=color;
+//document.getElementById("v6").style.borderRadius="5px";
+// ----------------------------------------------------------------------------
+
+// A7
+	xmldoc = xmlResponse.getElementsByTagName("B7");
+	message = xmldoc[0].firstChild.nodeValue;
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#0000aa";
+	}
+	document.getElementById("b7").innerHTML=message;
+	width = message / 40.95;
+	document.getElementById("b7").style.width=(width+"%");
+	document.getElementById("b7").style.backgroundColor=color;
+	//document.getElementById("b7").style.borderRadius="5px";
+	
+	xmldoc = xmlResponse.getElementsByTagName("V7");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v7").innerHTML=message;
+	document.getElementById("v7").style.width=(width+"%");
+	document.getElementById("v7").style.backgroundColor=color;
+	//document.getElementById("v7").style.borderRadius="5px";
+//----------------------------------------------------------------------------
+
+// A8
+	xmldoc = xmlResponse.getElementsByTagName("B8");
+	message = xmldoc[0].firstChild.nodeValue;
+	if (message > 2048){
+		color = "#aa0000";
+	}
+	else {
+		color = "#0000aa";
+	}
+	document.getElementById("b8").innerHTML=message;
+	width = message / 40.95;
+	document.getElementById("b8").style.width=(width+"%");
+	document.getElementById("b8").style.backgroundColor=color;
+	//document.getElementById("b8").style.borderRadius="5px";
+
+	xmldoc = xmlResponse.getElementsByTagName("V8");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("v8").innerHTML=message;
+	document.getElementById("v8").style.width=(width+"%");
+	
+	document.getElementById("v8").style.backgroundColor=color;
+	//document.getElementById("v8").style.borderRadius="5px";
+
+	xmldoc = xmlResponse.getElementsByTagName("S1");
+	message = xmldoc[0].firstChild.nodeValue;
+
+	if (message == 0){
+		document.getElementById("btn0").innerHTML="Turn ON";
+	}
+	else{
+		document.getElementById("btn0").innerHTML="Turn OFF";
+	}
+	
+	xmldoc = xmlResponse.getElementsByTagName("SWITCH");
+	message = xmldoc[0].firstChild.nodeValue;
+	document.getElementById("switch").style.backgroundColor="rgb(200,200,200)";
+// update the text in the table
+	if (message == 0){
+		document.getElementById("switch").innerHTML="Switch is OFF";
+		document.getElementById("btn1").innerHTML="Turn ON"; 546
+		document.getElementById("switch").style.color="#0000AA"; 547 
+	}
+	else {
+	document.getElementById("switch").innerHTML="Switch is ON";
+	document.getElementById("btn1").innerHTML="Turn OFF"; 551
+	document.getElementById("switch").style.color="#00AA00"; 552 }
+	}
+
+function process(){
+	if(xmlHttp.readyState==0 || xmlHttp.readyState==4) {
+		xmlHttp.open("PUT","xml",true);
+		xmlHttp.onreadystatechange=response;
+		xmlHttp.send(null);
+	}
+		setTimeout("process()",100);
+}
+</script>
+</html>
