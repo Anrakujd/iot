@@ -1,3 +1,9 @@
+// ********************************************************
+// *******  Program IoT SuperCapasitor Controller  ********
+// *******      Dibuat oleh Djukarna & Murni       ********
+// *******             Tahun 2022                  ********
+// ********************************************************
+
 #include <WiFi>
 #include <WebServer.h>
 #include "SuperCap.h"
